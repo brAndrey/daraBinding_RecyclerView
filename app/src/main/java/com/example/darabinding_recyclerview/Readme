@@ -1,0 +1,44 @@
+Пример RecyclerView, dataBinding, BaseObserverle и 3-х споcобов отслеживания нажатия на элементы в ячейке отображения.
+
+DataBinding и RecyclerView:
+
+По сравнению с классическис RecyclerView в Адаптере, в методе onCreateViewHolder, инициализируем не view, а экземпляр класса ...Binding.
+ Классический вариант:
+ View view = layoutInflater.inflate(R.layout.list_item_recyclerview, parent, false);
+
+Вариант dataBinding:
+ItemBinding binding = DataBindingUtil.inflate(inflater, R.layout.item, parent, false);
+
+и возвращаем не view, а binding
+return new CloneHolder(binding);
+
+
+Для отслеживания нажатия на элемент:
+
+Есль 3 подхода:
+Поместить програмный кол исполнения отслеживания в
+1- holder
+2- adapter
+3- в отдельный класс
+
+Во всех случаях первым делом создаём interfaice в котором перечисляем все методы которые будут отрабатывать нажатие.
+В файле xml разметки в разделе <data> <variable> делаем указание на этот интерфасе. В элементах в onClick делаем
+ссылки на методы интерфайса.  Делаем rebuild project.
+
+Далее идут различия.
+
+В первом случае.
+B конструкторе холдера пишем:
+bilding. set... название интерфаса( New Интерфайс(){ реализация методов интерфаса };)
+
+Во втором случае.
+В ходлере делаем метод getBinding(){ return binding}.
+В адаптере в методе onBindViewHolder через getBinding() получаем binding по аналогии с методом один:
+bilding. set... название интерфаса( New Интерфайс(){ реализация методов интерфаса };)
+
+Третий метод:
+В конструктере холдера указываем отдельный класс в методе:
+ bilding. set... название интерфаса( Отдельный класс };)
+
+
+EditText - отрабатывается обычным методом.
